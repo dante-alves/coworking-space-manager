@@ -1,0 +1,32 @@
+{
+  "name": "coworking-space-manager",
+  "version": "1.0.0",
+  "description": "Sistema que gerencia as alocações das salas de um coworking",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dante-alves/coworking-space-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dante-alves/coworking-space-manager/issues"
+  },
+  "homepage": "https://github.com/dante-alves/coworking-space-manager#readme",
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "prisma": "^7.8.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.8.0"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.8.0": true,
+    "prisma@7.8.0": true
+  }
+}

@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  nome String
+  email String @unique
+  senha String
+  telefone String
+  cpf String @unique
+  e_admin Boolean @default(false)
+  is_active Boolean @default(true)
+  dt_criacao DateTime @default(now())
+  dt_atualizacao DateTime @updatedAt
+  id_endereco Int
+
+  endereco Endereco @relation(fields: [id_endereco], references: [id])
+  reservas Reserva[]
+
+  @@map("usuarios")
+}
+
+model Reserva {
+  id Int @id @default(autoincrement())
+  dia DateTime @db.Date
+  turno Turno
+  status StatusReserva @default(confirmada)
+  dt_criacao DateTime @default(now())
+  id_usuario Int
+  id_sala Int
+  
+  usuario Usuario @relation(fields: [id_usuario], references: [id])
+  sala Sala @relation(fields: [id_sala], references: [id])
+
+  @@map("reservas")
+}
+
+enum Turno {
+  M
+  T
+  N
+}
+
+enum StatusReserva {
+  confirmada
+  cancelada
+}
+
+model Sala {
+  id Int @id @default(autoincrement())
+  nome String @unique
+  capacidade Int
+  descricao String
+  preco_locacao Float
+  is_active Boolean @default(true)
+  dt_criacao DateTime @default(now())
+  dt_atualizacao DateTime @updatedAt
+
+  reservas Reserva[]
+
+  @@map("salas")
+}
+
+model Endereco {
+  id Int @id @default(autoincrement())
+  rua String
+  numero String
+  complemento String?
+  bairro String
+  cep String
+  cidade String
+  uf String
+
+  usuarios Usuario[]
+
+  @@map("enderecos")
+}
