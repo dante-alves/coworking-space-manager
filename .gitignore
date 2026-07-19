@@ -92,6 +92,8 @@ dist
 # vuepress build output
 .vuepress/dist
 
+*.png
+
 # vuepress v2.x temp directory
 .temp
 
@@ -142,7 +144,11 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
-/generated/prisma
-
+# .cursor - Não estou usando o cursor para vibe codar nada. Apenas verificar se errei algo, e otimizar o código quando necessário com base no que EU fiz, utilizando contexto do projeto.
+.cursor
 # esboço do excalidraw
 *.excalidraw
+
+generated/
+
+.vscode/
