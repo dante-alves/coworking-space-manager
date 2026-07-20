@@ -6,6 +6,7 @@ import {
   criarUsuarioSchema,
   idUsuarioSchema,
   listarUsuariosQuerySchema,
+  loginUsuarioSchema,
 } from '../validators/usuarioSchemas.js';
 import { validate } from '../middlewares/validate.js';
 
@@ -13,8 +14,9 @@ const router = Router();
 
 router.get('/usuarios', auth, adminOnly, validate(listarUsuariosQuerySchema, 'query'), usuarioController.listar);
 router.post('/usuarios', authOpcional, validate(criarUsuarioSchema, 'body'), usuarioController.criar);
+router.post('/login', validate(loginUsuarioSchema), usuarioController.login);
 router.get('/usuarios/:id', auth, adminOnly, validate(idUsuarioSchema, 'params'), usuarioController.getById);
-router.put('/usuarios/:id',auth,validate(idUsuarioSchema, 'params'),validate(atualizarUsuarioSchema, 'body'),usuarioController.atualizar);
+router.put('/usuarios/:id',auth, validate(idUsuarioSchema, 'params'),validate(atualizarUsuarioSchema, 'body'),usuarioController.atualizar);
 router.delete('/usuarios/:id', auth,validate(idUsuarioSchema, 'params'),usuarioController.deletar);
 
 export default router;

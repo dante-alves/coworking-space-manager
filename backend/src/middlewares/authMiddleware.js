@@ -4,13 +4,13 @@ import { UnauthorizatedError, ForbbidenError } from '../utils/errors.js';
 export function auth(req, res, next) {
   const token = extractToken(req);
 
-  if (!token) throw new UnauthorizatedError('Token não fornecido');
+  if (!token) return next(new UnauthorizatedError('Token não fornecido'));
 
   try {
     req.usuario = jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch {
-    throw new UnauthorizatedError('Token inválido ou expirado');
+    return next(new UnauthorizatedError('Token inválido ou expirado'));
   }
 }
 

@@ -35,11 +35,35 @@ export async function criar(req, res, next) {
   }
 }
 
+export async function login(req, res, next) {
+
+  try {
+    const dados = req.body;
+
+    const usuario = await usuarioService.login(dados);
+
+    const payload = {
+      id: usuario.id,
+      eAdmin: usuario.eAdmin
+    }
+    
+    const token = gerarToken(payload);
+
+    return res.status(200).json({
+      sucesso: true,
+      usuario: usuario,
+      accessToken: token,
+    });
+  } catch (erro) {
+    next(erro);
+  }
+
+}
 
 export async function listar(req, res, next) {
   try {
 
-    const { pagina, busca } = req.query; // já vem formatado graças ao validate.js
+    const { pagina, busca } = req.validatedQuery; // já vem formatado graças ao validate.js
     
     /* Antes do validate.js era assim:
 

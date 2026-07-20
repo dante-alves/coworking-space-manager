@@ -1,10 +1,9 @@
 import prisma from '../config/prisma.js';
 import bcrypt from 'bcrypt';
-import { ConflictError, NotFoundError } from '../utils/errors.js';
+import { ConflictError, NotFoundError, UnauthorizatedError } from '../utils/errors.js';
 
 
 // CREATE
-
 async function criar(dados, solicitanteEhAdmin, eAdminDesejado) {
   const { nome, email, senha, telefone, cpf, endereco } = dados;
 
@@ -71,6 +70,47 @@ async function criar(dados, solicitanteEhAdmin, eAdminDesejado) {
   }
 }
 
+
+// LOGIN
+async function login(dados) {
+
+  const { email, senha } = dados;
+
+  try {
+
+    const usuarioComSenha = await prisma.usuario.findUnique({
+      where: { email },
+      select: { 
+        ...selectUsuario, 
+        senha: true 
+      },
+    });
+
+    
+    if (!usuarioComSenha) { // Uusário não encontrado
+      throw new UnauthorizatedError("Email ou senha inválidos.");
+    }
+    
+    // verificar se usuário está ativo
+    if (!usuarioComSenha.isActive) {
+      throw new UnauthorizatedError("Email ou senha inválidos.");
+    }
+    const { senha: senhaHash, ...usuario } = usuarioComSenha; 
+
+    // comparar a senha com o hash armazenado no banco
+    const isPasswordValid = await bcrypt.compare(senha, senhaHash);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizatedError("Email ou senha inválidos.");
+    }
+
+    return usuario;
+
+  } catch (erro) {
+    throw erro;
+  }
+}
+
 // auxiliares para listar usuários (paginação e filtro de busca)
 const tamanhoPag = 30;
 
@@ -105,7 +145,6 @@ function filtroBusca(busca) {
 
 
 // READ
-
 async function listar(pagina = 1, busca = '') {
 
   // paginação
@@ -228,4 +267,4 @@ async function getById(id) {
   }
 }
 
-export default { criar, listar, atualizar, deletar, getById };
+export default { criar, login, listar, atualizar, deletar, getById };

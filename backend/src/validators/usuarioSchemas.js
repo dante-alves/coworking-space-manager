@@ -22,6 +22,10 @@ export const criarUsuarioSchema = z.object({
     eAdmin: z.boolean().optional(), // admin pode enviar
 })
 
+export const loginUsuarioSchema = z.object({
+    email: z.string().trim().min(1, 'Email é obrigatório.').email('Formato de email inválido.'),
+    senha: z.string().min(1, 'Senha é obrigatória.')
+})
 
 export const listarUsuariosQuerySchema = z.object({
     pagina: z.coerce.number().int().positive().optional().default(1),

@@ -10,7 +10,12 @@ export function validate(schema, origem = 'body') {
             return next(new ValidationError(mensagem));
         }
 
-        req[origem] = resultado.data; // já envia body/params/query validados + transformados
+        if (origem === 'query') {
+            req.validatedQuery = resultado.data; // fiz isso por conta de um erro pois query não é editável. --> Se o validate tentasse sobrescrever req[query] ia dar 500 Internal Server Error
+        }
+        else {
+            req[origem] = resultado.data; // já envia body/params/validados + transformados
+        }
 
         next();
     };
