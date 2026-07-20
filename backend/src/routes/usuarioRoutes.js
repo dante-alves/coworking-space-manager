@@ -15,7 +15,7 @@ const router = Router();
 router.get('/usuarios', auth, adminOnly, validate(listarUsuariosQuerySchema, 'query'), usuarioController.listar);
 router.post('/usuarios', authOpcional, validate(criarUsuarioSchema, 'body'), usuarioController.criar);
 router.post('/login', validate(loginUsuarioSchema), usuarioController.login);
-router.get('/usuarios/:id', auth, adminOnly, validate(idUsuarioSchema, 'params'), usuarioController.getById);
+router.get('/usuarios/:id', auth, validate(idUsuarioSchema, 'params'), usuarioController.getById);
 router.put('/usuarios/:id',auth, validate(idUsuarioSchema, 'params'),validate(atualizarUsuarioSchema, 'body'),usuarioController.atualizar);
 router.delete('/usuarios/:id', auth,validate(idUsuarioSchema, 'params'),usuarioController.deletar);
 

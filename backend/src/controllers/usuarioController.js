@@ -137,6 +137,11 @@ export async function getById(req, res, next) {
   try {
 
     const { id } = req.params;
+    const solicitante = req.usuario;
+
+    if (!solicitante.eAdmin && Number(solicitante.id) !== Number(id)) {
+      throw new ForbbidenError();
+    }
     
     const usuario = await usuarioService.getById(id);
     
