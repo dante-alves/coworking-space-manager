@@ -2,6 +2,17 @@ import prisma from '../config/prisma.js';
 import bcrypt from 'bcrypt';
 import { ConflictError, NotFoundError, UnauthorizatedError } from '../utils/errors.js';
 
+// select reutilizável
+const selectUsuario = {
+  id: true,
+  nome: true,
+  email: true,
+  telefone: true,
+  cpf: true,
+  eAdmin: true,
+  isActive: true,
+  dtCriacao: true,
+};
 
 // CREATE
 async function criar(dados, solicitanteEhAdmin, eAdminDesejado) {
@@ -35,16 +46,7 @@ async function criar(dados, solicitanteEhAdmin, eAdminDesejado) {
           eAdmin,
           idEndereco: enderecoCriado.id,
         },
-        select: {
-          id: true,
-          nome: true,
-          email: true,
-          telefone: true,
-          cpf: true,
-          eAdmin: true,
-          isActive: true,
-          dtCriacao: true,
-        },
+        select: selectUsuario,
       });
 
       return usuarioCriado;
@@ -113,17 +115,6 @@ async function login(dados) {
 
 // auxiliares para listar usuários (paginação e filtro de busca)
 const tamanhoPag = 30;
-
-const selectUsuario = {
-  id: true,
-  nome: true,
-  email: true,
-  telefone: true,
-  cpf: true,
-  eAdmin: true,
-  isActive: true,
-  dtCriacao: true,
-};
 
 function filtroBusca(busca) {
 
