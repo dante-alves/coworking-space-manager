@@ -1,4 +1,4 @@
-import { ValidationError } from "./errors";
+import { ValidationError } from "./errors.js";
 
 const PRAZO_MINUTOS = {
     M: 11 * 60 + 59, // 11:59 -> última hora que o turno pode ser reservado
