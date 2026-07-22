@@ -2,6 +2,18 @@ import prisma from "../config/prisma.js";
 import { ConflictError, NotFoundError, ValidationError } from "../utils/errors.js";
 
 
+// select reutilizável
+const selectSala = {
+    id: true,
+    nome: true,
+    capacidade: true,
+    descricao: true,
+    precoLocacao: true,
+    isActive:  true,
+    dtCriacao: true,
+    dtAtualizacao: true,
+};
+
 // CREATE
 
 async function criar(dados) {
@@ -28,18 +40,6 @@ async function criar(dados) {
         throw erro;
     }
 }
-
-
-const selectSala = {
-    id: true,
-    nome: true,
-    capacidade: true,
-    descricao: true,
-    precoLocacao: true,
-    isActive:  true,
-    dtCriacao: true,
-    dtAtualizacao: true,
-};
 
 // READ
 async function listar(dia, turno, solicitanteEhAdmin) {
@@ -68,7 +68,7 @@ const TURNOS = ['M', 'T', 'N'];
 
 async function listarDisponiveis(dia, turno) {
     // dia vem do Zod como "YYYY-MM-DD"
-    const diaDate = new Date(`${dia}T00:00:00:000Z`);
+    const diaDate = new Date(`${dia}T00:00:00.000Z`);
 
     // pegar salas ativas
     const salas = await prisma.sala.findMany({
@@ -78,7 +78,7 @@ async function listarDisponiveis(dia, turno) {
     })
 
     // reservas confirmadas do dia
-    const reservas = await prisma.sala.findMany({
+    const reservas = await prisma.reserva.findMany({
         where: {
             dia: diaDate,
             status: 'confirmada',
@@ -138,7 +138,7 @@ async function listarDisponiveis(dia, turno) {
 }
 // UPDATE
 async function atualizar(id, dados) {
-
+    
     try {
         const sala = await prisma.sala.update({
             where: { id: id },
@@ -174,7 +174,7 @@ async function deletar(id) {
 
         return await prisma.$transaction(async (tx) => {
             const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
+            hoje.setUTCHours(0, 0, 0, 0);
 
             const { count } = await tx.reserva.updateMany({
                 where: {

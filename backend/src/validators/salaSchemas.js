@@ -20,6 +20,7 @@ export const atualizarSalaSchema = z.object({
     capacidade: z.coerce.number().int().positive().optional(),
     descricao: z.string().trim().optional(),
     precoLocacao: z.coerce.number().positive().optional(),
+    isActive: z.boolean().optional(), // para reativar sala que foi desativada
 })
     .strict()
     .transform((data) => {

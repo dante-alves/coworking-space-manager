@@ -204,7 +204,7 @@ async function deletar(id) {
 
     return await prisma.$transaction(async (tx) => {
       const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
+      hoje.setUTCHours(0, 0, 0, 0);
 
       const { count } = await tx.reserva.updateMany({
         where: {
