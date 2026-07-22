@@ -1,5 +1,6 @@
 import prisma from "../config/prisma.js";
 import { ConflictError, NotFoundError, ValidationError } from "../utils/errors.js";
+import { turnoAindaReservavel } from "../utils/turnoValido.js";
 
 
 // select reutilizável
@@ -66,7 +67,15 @@ async function listarAdmin() {
 
 const TURNOS = ['M', 'T', 'N'];
 
+function statusTurno(dia, t, ocupados) {
+    if (ocupados.has(t)) return 'ocupado'; // se o turno já está ocupado
+
+    if (!turnoAindaReservavel(dia, t)) return 'indisponivel'; // se o turno já passou do horário de reserva, retorna 'indisponivel'
+    return 'disponivel'; // se o turno ainda está disponível, retorna 'disponivel'
+}
+
 async function listarDisponiveis(dia, turno) {
+
     // dia vem do Zod como "YYYY-MM-DD"
     const diaDate = new Date(`${dia}T00:00:00.000Z`);
 
@@ -112,9 +121,9 @@ async function listarDisponiveis(dia, turno) {
         const ocupados = ocupacaoPorSala.get(sala.id) ?? new Set();
 
         const turnos =  {
-            M: ocupados.has('M') ? 'ocupado' : 'disponivel',
-            T: ocupados.has('T') ? 'ocupado' : 'disponivel',
-            N: ocupados.has('N') ? 'ocupado' : 'disponivel',
+            M: statusTurno(dia, 'M', ocupados),
+            T: statusTurno(dia, 'T', ocupados),
+            N: statusTurno(dia, 'N', ocupados),
         };
 
         const totalmenteReservada = TURNOS.every((t) => ocupados.has(t)); // verifica se ocupados está com manhã, tarde e noite reservadas -> se estiver, totalmenteReservada recebe true.
@@ -137,12 +146,29 @@ async function listarDisponiveis(dia, turno) {
     return salaComStatus;
 }
 // UPDATE
+// endpoint pode ser utilizado para reativar sala -> isActive = true
 async function atualizar(id, dados) {
-    
+
     try {
+        // impedir que admin desative sala pelo endpoint de atualizar
+        if (dados.isActive === false) {
+            throw new ValidationError('Use DELETE /salas/:id para desativar uma sala.');
+        }
+        // verificar se é possível reativar a sala -> sala existe e está inativa
+        if (dados.isActive === true) {
+            const salaBuscada = await prisma.sala.findUnique({
+                where: { id },
+                select: { isActive: true },
+            })
+
+            if (!salaBuscada) throw new NotFoundError("Sala não encontrada");
+
+            if (salaBuscada.isActive) throw new ValidationError("Sala já está ativa");
+        }
+
         const sala = await prisma.sala.update({
             where: { id: id },
-            data: dados,
+            data: dados, // isActive vem opcional nos dados, então se tiver, ele atualiza.
             select: selectSala,
         });
 

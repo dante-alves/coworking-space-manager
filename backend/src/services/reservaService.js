@@ -1,5 +1,6 @@
 import prisma from "../config/prisma.js";
 import { AppError, ConflictError, NotFoundError, ValidationError } from "../utils/errors.js";
+import { validarPrazoReserva } from "../utils/turnoValido.js";
 
 // select reutilizável
 const selectReserva = {
@@ -41,14 +42,8 @@ async function criar(dados) {
     const diaDate = new Date(`${dia}T00:00:00.000Z`);
     try {
         
-        // verificar se dia tá no passado
-        const hoje = new Date();
-        hoje.setUTCHours(0, 0, 0, 0);
-
-
-        if (diaDate < hoje) {
-            throw new ValidationError("Não é possível reservar sala no passado.");
-        }
+        // verificar se dia ou turno da reserva estão no prazo válido (não estão no passado)
+        validarPrazoReserva(dia, turno);
 
         // verificar se já tem reserva no turno
         const reservaExistente = await prisma.reserva.findFirst({
