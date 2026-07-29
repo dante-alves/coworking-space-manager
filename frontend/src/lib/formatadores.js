@@ -33,6 +33,14 @@ export function diaParaApi(data) {
     return `${ano}-${mes}-${dia}`;
 }
 
+export function diaApiParaDate(diaApi) {
+    if (!diaApi) return undefined;
+
+    const [ano, mes, dia] = diaApi.split("-").map(Number);
+
+    return new Date(ano, mes - 1, dia);
+}
+
 export function hojeParaApi() {
     return diaParaApi(new Date());
 }
