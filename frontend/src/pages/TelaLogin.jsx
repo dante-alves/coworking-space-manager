@@ -12,7 +12,7 @@ export default function TelaLogin() {
     } = useLogin();
 
     return (
-    <div className='flex min-h-svh w-full items-center justify-center bg-background px-4 py-8'>
+    <div className='flex flex-1 items-center justify-center px-4 py-8'>
       <LoginForm className='w-full max-w-lg'
       form={form}
       erros={erros}

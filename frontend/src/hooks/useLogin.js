@@ -4,7 +4,7 @@ import { login } from "@/services/usuarioService";
 import { errosPorCampo } from "@/validators/erroSchema";
 import { loginFormSchema } from "@/validators/loginSchema";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const estadoInicial = {
     email: "",
@@ -13,6 +13,8 @@ const estadoInicial = {
 
 export function useLogin() {
     const navigate = useNavigate();
+    const location = useLocation();
+    
     const [form, setForm] = useState(estadoInicial);
     const [erros, setErros] = useState({});
     const [erroGeral, setErroGeral] = useState("");
@@ -45,7 +47,10 @@ export function useLogin() {
                 usuario: resposta.usuario,
             });
 
-            navigate("/salas");
+            
+            const destino = location.state?.from ?? "/salas";
+
+            navigate(destino, { replace: true });
         } catch (erro) {
             setErroGeral(
                 erro.response?.data?.mensagem ?? "Erro ao realizar login."
