@@ -7,6 +7,7 @@ import TelaLogin from './pages/TelaLogin'
 import TelaCadastro from './pages/TelaCadastro'
 import TelaSalas from './pages/TelaSalas'
 import TelaPerfil from './pages/TelaPerfil'
+import TelaMinhasReservas from './pages/TelaMinhasReservas'
 
 function App() {
 
@@ -30,7 +31,7 @@ function App() {
             path="/minhas-reservas"
             element={
               <RotaProtegida>
-                <div className="p-8">Minhas Reservas (em breve)</div>
+                <TelaMinhasReservas />
               </RotaProtegida>
             }
           />

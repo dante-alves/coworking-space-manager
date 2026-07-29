@@ -9,12 +9,18 @@ const LABEL_TURNO = Object.fromEntries(
     TURNOS.map(({ valor, label }) => [valor, label])
 );
 
-// passar data da API "2026-07-17" para "17/07/2026"
+// passar data da API "2026-07-17" ou ISO "2026-07-17T00:00:00.000Z" para "17/07/2026"
+
+export function normalizarDiaApi(diaApi) {
+    if (!diaApi) return ""
+    return String(diaApi).slice(0, 10)
+}
 
 export function formatarDiaExibicao(diaApi) {
     if (!diaApi) return ""
 
-    const [ano, mes, dia] = diaApi.split("-");
+    const normalizado = normalizarDiaApi(diaApi)
+    const [ano, mes, dia] = normalizado.split("-");
 
     if (!ano || !mes || !dia) return diaApi;
 
