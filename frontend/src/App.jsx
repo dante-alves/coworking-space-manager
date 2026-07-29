@@ -6,6 +6,8 @@ import TelaHome from './pages/TelaHome'
 import TelaLogin from './pages/TelaLogin'
 import TelaCadastro from './pages/TelaCadastro'
 import TelaSalas from './pages/TelaSalas'
+import TelaPerfil from './pages/TelaPerfil'
+
 function App() {
 
   return (
@@ -37,7 +39,7 @@ function App() {
             path="/perfil"
             element={
               <RotaProtegida>
-                <div className="p-8">Perfil (em breve)</div>
+                <TelaPerfil />
               </RotaProtegida>
             }
           />

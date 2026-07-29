@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { enderecoSchema } from './enderecoSchemas.js';
+import { telefoneOpcionalSchema, telefoneSchema } from './telefoneSchema.js';
 
 export const criarUsuarioSchema = z.object({
     nome: z.string().trim().min(1, 'Nome é obrigatório.'),
@@ -11,7 +12,7 @@ export const criarUsuarioSchema = z.object({
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
         'A senha deve conter no mínimo 8 caracteres, uma letra maiúscula, uma minúscula e um número.'
         ),
-    telefone: z.string().trim().min(1, 'Telefone é obrigatório.'),
+    telefone: telefoneSchema,
     cpf: z
         .string()
         .trim()
@@ -35,7 +36,7 @@ export const listarUsuariosQuerySchema = z.object({
 
 export const atualizarUsuarioSchema = z.object({
     nome: z.string().trim().optional(),
-    telefone: z.string().trim().optional(),
+    telefone: telefoneOpcionalSchema,
     })
     .strict() // rejeita outros campos
     .transform((data) => {

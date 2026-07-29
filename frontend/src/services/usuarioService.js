@@ -11,3 +11,15 @@ export async function login(dados) {
 
     return data;
 }
+
+export async function buscarPorId(id) {
+    const { data } = await api.get(`/usuarios/${id}`);
+
+    return data;
+}
+
+export async function atualizar(id, dados) {
+    const { data } = await api.put(`/usuarios/${id}`, dados);
+
+    return data;
+}

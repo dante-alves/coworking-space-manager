@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { telefoneSchema } from '@/validators/telefoneSchema';
 
 const enderecoSchema = z.object({
     rua: z.string().trim().min(1, 'Rua é obrigatória.'),
@@ -21,7 +22,7 @@ export const cadastroFormSchema = z.object({
         'A senha deve conter no mínimo 8 caracteres, uma letra maiúscula, uma minúscula e um número.'
         ),
     confirmarSenha: z.string().trim().min(1, 'Confirme sua senha'),
-    telefone: z.string().trim().min(1, 'Telefone é obrigatório.'),
+    telefone: telefoneSchema,
     cpf: z
         .string()
         .trim()

@@ -18,3 +18,27 @@ export function limparSessao() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY)
 }
+
+export function obterUsuario() {
+    const raw = localStorage.getItem(USER_KEY);
+
+    if (!raw) return null;
+
+    try {
+        return JSON.parse(raw); // parse do usuário string para object
+    } catch {
+        return null;
+    }
+}
+
+export function atualizarUsuarioSessao(dados) {
+    const token = obterToken();
+    const usuario = obterUsuario();
+
+    if (!token || !usuario) return;
+
+    salvarSessao({
+        accessToken: token,
+        usuario: { ...usuario, ...dados },
+    });
+}
