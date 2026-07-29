@@ -14,6 +14,21 @@ const selectUsuario = {
   dtCriacao: true,
 };
 
+const selectEndereco = {
+  rua: true,
+  numero: true,
+  complemento: true,
+  bairro: true,
+  cep: true,
+  cidade: true,
+  uf: true,
+};
+
+const selectUsuarioComEndereco = {
+  ...selectUsuario,
+  endereco: { select: selectEndereco },
+};
+
 // CREATE
 async function criar(dados, solicitanteEhAdmin, eAdminDesejado) {
   const { nome, email, senha, telefone, cpf, endereco } = dados;
@@ -244,7 +259,7 @@ async function getById(id) {
       where: { 
         id: id, 
       },
-      select: selectUsuario,
+      select: selectUsuarioComEndereco,
     });
 
     return usuario;

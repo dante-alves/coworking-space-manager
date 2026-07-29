@@ -155,7 +155,7 @@ router.get('/usuarios', auth, adminOnly, validate(listarUsuariosQuerySchema, 'qu
  *     tags:
  *       - Usuários
  *     summary: Buscar usuário por ID
- *     description: Cliente só no próprio id; admin em qualquer id
+ *     description: Cliente só no próprio id; admin em qualquer id. Inclui endereco.
  *     security:
  *       - bearerAuth: []
  *     parameters:

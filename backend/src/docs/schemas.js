@@ -29,6 +29,9 @@
  *           type: boolean
  *         isActive:
  *           type: boolean
+ *         endereco:
+ *           $ref: '#/components/schemas/Endereco'
+ *           description: Presente em GET /usuarios/{id}
  *
  *     Endereco:
  *       type: object
