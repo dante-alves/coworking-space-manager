@@ -63,14 +63,12 @@ export async function login(req, res, next) {
 export async function listar(req, res, next) {
   try {
 
-    const { pagina, busca } = req.validatedQuery; // já vem formatado graças ao validate.js
-    
-    /* Antes do validate.js era assim:
-
-    const pagina = req.query.pagina;
-    const busca = req.query.busca;
-    */
-    const {usuarios, paginacao} = await usuarioService.listar(pagina, busca);
+    const { pagina, busca, clientes } = req.validatedQuery;
+    const { usuarios, paginacao } = await usuarioService.listar(
+      pagina,
+      busca,
+      clientes ?? false
+    );
 
     return res.status(200).json({
       sucesso: true,

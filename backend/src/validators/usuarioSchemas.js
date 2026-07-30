@@ -31,6 +31,10 @@ export const loginUsuarioSchema = z.object({
 export const listarUsuariosQuerySchema = z.object({
     pagina: z.coerce.number().int().positive().optional().default(1),
     busca: z.string().optional().default(''),
+    clientes: z
+        .enum(['true', 'false'])
+        .optional()
+        .transform((valor) => valor === 'true'),
 });
 
 

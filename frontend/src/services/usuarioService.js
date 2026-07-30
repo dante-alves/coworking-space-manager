@@ -30,10 +30,14 @@ export async function desativar(id) {
     return data;
 }
 
-export async function listar(pagina = 1, busca = "") {
-    const { data } = await api.get("/usuarios", {
-        params: { pagina, busca },
-    });
+export async function listar(pagina = 1, busca = "", opcoes = {}) {
+    const params = { pagina, busca };
+
+    if (opcoes.apenasClientes) {
+        params.clientes = "true";
+    }
+
+    const { data } = await api.get("/usuarios", { params });
 
     return data;
 }

@@ -137,36 +137,44 @@ function filtroBusca(busca) {
 
   if (!buscaLimpa) return {};
 
-  const cpfLimpo = busca.replace(/\D/g, '') // limpando os . ou - do CPF
+  const cpfLimpo = buscaLimpa.replace(/\D/g, '');
 
-  // busca por email, nome ou CPF
-  return {
-    OR: [
-      { nome: { contains: buscaLimpa, mode: 'insensitive' } },
-      { email: { contains: buscaLimpa, mode: 'insensitive' } },
-      ...(cpfLimpo ? [{ cpf: cpfLimpo }] : []),
-    ],
-  };
+  const condicoes = [
+    { nome: { contains: buscaLimpa, mode: 'insensitive' } },
+    { email: { contains: buscaLimpa, mode: 'insensitive' } },
+  ];
+
+  // CPF no banco é só dígitos; contains permite busca parcial (ex.: "123456" ou "123.456.789-01")
+  if (cpfLimpo.length >= 2) {
+    condicoes.push({ cpf: { contains: cpfLimpo } });
+  }
+
+  return { OR: condicoes };
 }
 
 
 // READ
-async function listar(pagina = 1, busca = '') {
+async function listar(pagina = 1, busca = '', apenasClientes = false) {
 
   // paginação
   const paginaAtual = Math.max(Number(pagina) || 1, 1);
   const limit = tamanhoPag || 30;
   const skip = (paginaAtual - 1) * limit;
 
+  const where = {
+    ...filtroBusca(busca),
+    ...(apenasClientes && { eAdmin: false }),
+  };
+
   const [usuarios, totalUsuarios] = await Promise.all([
     prisma.usuario.findMany({
-      where: filtroBusca(busca),
+      where,
       select: selectUsuario,
       skip,
       take: limit,
       orderBy: { id: 'asc' },
     }),
-    prisma.usuario.count({ where: filtroBusca(busca) }),
+    prisma.usuario.count({ where }),
   ]);
 
   return {
