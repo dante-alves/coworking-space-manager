@@ -20,7 +20,7 @@ export function AppHeader() {
 
   return (
     <header className="border-b bg-card">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <Link to="/" className="text-xl font-semibold hover:text-primary">
           Coworking Space Manager
         </Link>

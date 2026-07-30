@@ -29,3 +29,11 @@ export async function desativar(id) {
 
     return data;
 }
+
+export async function listar(pagina = 1, busca = "") {
+    const { data } = await api.get("/usuarios", {
+        params: { pagina, busca },
+    });
+
+    return data;
+}

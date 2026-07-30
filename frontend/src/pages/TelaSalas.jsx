@@ -1,3 +1,4 @@
+import { PageContainer } from "@/components/layout/PageContainer"
 import { AlertaFeedback } from "@/components/salas/AlertaFeedback";
 import { FiltrosSalas } from "@/components/salas/FiltrosSalas";
 import { SalaCard } from "@/components/salas/SalaCard";
@@ -18,9 +19,7 @@ export default function TelaSalas() {
     } = useSalasDisponiveis()
 
     return (
-        <div className="bg-background">
-            <main className="mx-auto max-w-6xl p-6 flex flex-col gap-6">
-
+        <PageContainer>
             <FiltrosSalas 
                 dia={dia}
                 turno={turno}
@@ -57,7 +56,6 @@ export default function TelaSalas() {
                 </div>
             )
             }
-            </main>
-        </div>
+        </PageContainer>
     )
 }

@@ -106,7 +106,7 @@ export default function TelaAdminSalas() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <p className="text-sm text-muted-foreground">
           Gerencie todas as salas do coworking. Salas inativas aparecem em cinza.

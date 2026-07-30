@@ -1,9 +1,15 @@
 import api from "@/lib/api";
 
-export async function listar() {
-    const { data } = await api.get("/reservas");
+export async function listar(filtros = {}) {
+    const params = {}
 
-    return data;
+    if (filtros.idUsuario) params.idUsuario = filtros.idUsuario
+    if (filtros.idSala) params.idSala = filtros.idSala
+    if (filtros.dia) params.dia = filtros.dia
+
+    const { data } = await api.get("/reservas", { params })
+
+    return data
 }
 
 export async function criar(dados) {

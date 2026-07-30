@@ -1,3 +1,4 @@
+import { FormSelect } from "@/components/form/form-select"
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react';
 import { TURNOS, diaApiParaDate, diaParaApi, formatarDiaExibicao, } from "@/lib/formatadores";
@@ -25,8 +26,8 @@ export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
                                 id='dia-exibicao'
                                 type='button'
                                 className={cn(
-                                    "flex h-9 w-[180px] items-center justify-between rounded-md border",
-                                    "bg-background px-3 text-sm hover:bg-muted/50"
+                                    "flex h-9 w-[180px] items-center justify-between rounded-md border border-input",
+                                    "bg-background px-3 text-sm shadow-xs hover:bg-muted/50"
                                 )}
                             >
                                 <span>{formatarDiaExibicao(dia)}</span>
@@ -50,23 +51,16 @@ export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
                     </Popover>
                 </div>
 
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="turno" className="text-sm">
-                        Turno
-                    </label>
-                <select 
+                <FormSelect
                     id="turno"
+                    label="Turno"
                     value={turno}
-                    onChange={(e) => onTurnoChange(e.target.value)}
-                    className="h-9 rounded-md border bg-background px-3 text-sm"
-                >
-                    {TURNOS.map(({ valor, label }) => (
-                        <option key={valor} value={valor}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
-                </div>
+                    onChange={onTurnoChange}
+                    options={TURNOS.map(({ valor, label }) => ({
+                        value: valor,
+                        label,
+                    }))}
+                />
             </div>
         </div>
     )

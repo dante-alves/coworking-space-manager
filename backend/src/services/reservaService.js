@@ -130,25 +130,40 @@ async function listar(dados) {
         where.idUsuario = idSolicitante;
     }
 
+    const selectReservaListagem = {
+        id: true,
+        idSala: true,
+        idUsuario: true,
+        dia: true,
+        turno: true,
+        sala: { select: { nome: true } },
+        ...(solicitanteEhAdmin && {
+            usuario: { select: { nome: true } },
+        }),
+    };
+
     const reservas = await prisma.reserva.findMany({
         where,
-        select: {
-            id: true,
-            idSala: true,
-            dia: true,
-            turno: true,
-            sala: { select: { nome: true } },
-        },
-        orderBy: [{ dia: 'asc' }, { turno: 'asc' }],
+        select: selectReservaListagem,
+        orderBy: [{ dia: 'desc' }, { turno: 'desc' }],
     })
 
-    const reservasFormatadas = reservas.map((r) => ({
-        id: r.id,
-        idSala: r.idSala,
-        nomeSala: r.sala.nome,
-        dia: r.dia,
-        turno: r.turno
-    }));
+    const reservasFormatadas = reservas.map((r) => {
+        const item = {
+            id: r.id,
+            idSala: r.idSala,
+            nomeSala: r.sala.nome,
+            dia: r.dia,
+            turno: r.turno,
+        };
+
+        if (solicitanteEhAdmin) {
+            item.idUsuario = r.idUsuario;
+            item.nomeUsuario = r.usuario.nome;
+        }
+
+        return item;
+    });
 
     // cliente vê só reservas ativas (futuras ou de hoje ainda no prazo do turno)
     if (!solicitanteEhAdmin) {

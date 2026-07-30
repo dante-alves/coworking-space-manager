@@ -1,3 +1,4 @@
+import { PageContainer } from "@/components/layout/PageContainer"
 import { AlertaFeedback } from "@/components/salas/AlertaFeedback";
 import { ReservaCard } from "@/components/reservas/ReservaCard";
 import { buttonVariants } from "@/components/ui/button";
@@ -16,7 +17,7 @@ export default function TelaMinhasReservas() {
     } = useMinhasReservas();
 
     return (
-        <main className="mx-auto flex max-w-6xl flex-col gap-6 p-6">
+        <PageContainer>
             <h1 className="text-2xl font-semibold">Minhas Reservas</h1>
 
             {feedback && (
@@ -53,6 +54,6 @@ export default function TelaMinhasReservas() {
                     ))}
                 </div>
             )}
-        </main>
+        </PageContainer>
     );
 }
