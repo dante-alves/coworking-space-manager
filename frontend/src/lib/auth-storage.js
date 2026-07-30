@@ -1,9 +1,14 @@
 const TOKEN_KEY = 'accessToken';
 const USER_KEY = 'usuario';
 
+function notificarSessaoAtualizada() {
+    window.dispatchEvent(new Event('sessao-atualizada'));
+}
+
 export function salvarSessao({ accessToken, usuario }) {
     localStorage.setItem(TOKEN_KEY, accessToken);
     localStorage.setItem(USER_KEY, JSON.stringify(usuario));
+    notificarSessaoAtualizada();
 }
 
 export function obterToken() {
@@ -17,6 +22,7 @@ export function estaLogado() {
 export function limparSessao() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY)
+    notificarSessaoAtualizada();
 }
 
 export function obterUsuario() {

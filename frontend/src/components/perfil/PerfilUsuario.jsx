@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useLogout } from "@/hooks/useLogout"
 import { formatarCpf } from "@/lib/formatadores"
 import { PerfilFormEdit } from "@/components/perfil/PerfilFormEdit"
+import { AvatarUsuario } from "@/components/perfil/AvatarUsuario"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -69,10 +70,21 @@ export function PerfilUsuario({
   return (
     <Card className="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>{editando ? "Editar perfil" : usuario.nome}</CardTitle>
-        <CardDescription>
-          {usuario.eAdmin ? "Administrador" : "Cliente"}
-        </CardDescription>
+        {editando ? (
+          <>
+            <CardTitle>Editar perfil</CardTitle>
+          </>
+        ) : (
+          <div className="flex items-center gap-4">
+            <AvatarUsuario nome={usuario.nome} size="lg" />
+            <div className="flex flex-col gap-1.5">
+              <CardTitle>{usuario.nome}</CardTitle>
+              <CardDescription>
+                {usuario.eAdmin ? "Administrador" : "Cliente"}
+              </CardDescription>
+            </div>
+          </div>
+        )}
       </CardHeader>
 
       <CardContent>

@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth"
 import { useLogout } from "@/hooks/useLogout"
+import { NavLinkPerfil } from "@/components/layout/NavLinkPerfil"
 import { cn } from "@/lib/utils"
 import { Link, NavLink } from "react-router-dom"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -7,16 +8,12 @@ import { Button, buttonVariants } from "@/components/ui/button"
 const LINKS_CLIENTE = [
   { to: "/salas", label: "Salas Disponíveis" },
   { to: "/minhas-reservas", label: "Minhas Reservas" },
-  { to: "/perfil", label: "Perfil" },
 ]
 
-const LINKS_ADMIN = [
-  { to: "/admin", label: "Painel de Gerenciamento" },
-  { to: "/perfil", label: "Perfil" },
-]
+const LINKS_ADMIN = [{ to: "/admin", label: "Painel de Gerenciamento" }]
 
 export function AppHeader() {
-  const { logado, ehAdmin } = useAuth()
+  const { logado, ehAdmin, usuario } = useAuth()
   const { sair } = useLogout()
 
   const links = ehAdmin ? LINKS_ADMIN : LINKS_CLIENTE
@@ -52,6 +49,8 @@ export function AppHeader() {
                   {label}
                 </NavLink>
               ))}
+
+              <NavLinkPerfil nome={usuario?.nome} />
 
               <Button
                 type="button"

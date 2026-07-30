@@ -78,3 +78,33 @@ export function formatarCpf(cpf) {
 
     return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
+
+export function obterPrimeiroNome(nome) {
+    if (!nome?.trim()) return "Perfil";
+
+    return nome.trim().split(/\s+/)[0];
+}
+
+export function obterInicialNome(nome) {
+    const primeiro = obterPrimeiroNome(nome);
+
+    if (primeiro === "Perfil") return "?";
+
+    return primeiro.charAt(0).toUpperCase();
+}
+
+export function estiloAvatarPorNome(nome) {
+    const base = obterPrimeiroNome(nome);
+    let hash = 0;
+
+    for (let i = 0; i < base.length; i++) {
+        hash = base.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const hue = Math.abs(hash) % 360;
+
+    return {
+        backgroundColor: `hsl(${hue} 42% 32%)`,
+        color: `hsl(${hue} 65% 78%)`,
+    };
+}
