@@ -42,6 +42,10 @@ export const atualizarSalaSchema = z.object({
             dadosParaAtualizar.precoLocacao = data.precoLocacao;
         }
 
+        if (data.isActive !== undefined) {
+            dadosParaAtualizar.isActive = data.isActive;
+        }
+
         return dadosParaAtualizar;
     })
     .refine(
