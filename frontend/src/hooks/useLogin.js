@@ -47,8 +47,8 @@ export function useLogin() {
                 usuario: resposta.usuario,
             });
 
-            
-            const destino = location.state?.from ?? "/salas";
+            const destinoPadrao = resposta.usuario.eAdmin ? "/admin" : "/salas";
+            const destino = location.state?.from ?? destinoPadrao;
 
             navigate(destino, { replace: true });
         } catch (erro) {

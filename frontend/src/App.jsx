@@ -8,6 +8,12 @@ import TelaCadastro from './pages/TelaCadastro'
 import TelaSalas from './pages/TelaSalas'
 import TelaPerfil from './pages/TelaPerfil'
 import TelaMinhasReservas from './pages/TelaMinhasReservas'
+import TelaAdminLayout from './pages/admin/TelaAdminLayout'
+import TelaAdminSalas from './pages/admin/TelaAdminSalas'
+import TelaAdminReservas from './pages/admin/TelaAdminReservas'
+import TelaAdminClientes from './pages/admin/TelaAdminClientes'
+import { RotaAdmin } from '@/components/layout/RotaAdmin'
+import { Navigate } from 'react-router-dom'
 
 function App() {
 
@@ -44,6 +50,20 @@ function App() {
               </RotaProtegida>
             }
           />
+
+          <Route
+            path="/admin"
+            element={
+              <RotaAdmin>
+                <TelaAdminLayout />
+              </RotaAdmin>
+            }
+          >
+            <Route index element={<Navigate to="salas" replace />} />
+            <Route path="salas" element={<TelaAdminSalas />} />
+            <Route path="reservas" element={<TelaAdminReservas />} />
+            <Route path="clientes" element={<TelaAdminClientes />} />
+          </Route>
 
         </Route>
       </Routes>
