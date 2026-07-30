@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
-import { formatarDiaExibicao, formatarPrecoTurno, labelTurno } from "@/lib/formatadores";
+import { formatarDiaExibicao, formatarPrecoTurno, labelTurnoComHorario } from "@/lib/formatadores";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -29,35 +29,39 @@ export function SalaCard({ sala, dia, turno, onReservar, reservando = false }) {
 
     return (
         <>
-            <Card className="w-full">
-                <CardHeader>
-                    <CardTitle>{sala.nome}</CardTitle>
-                </CardHeader>
+            <div className="h-full">
+                <Card className="flex h-full w-full flex-col">
+                    <CardHeader>
+                        <CardTitle>{sala.nome}</CardTitle>
+                    </CardHeader>
 
-                <CardContent className="flex flex-col gap-1 text-muted-foreground">
-                    <p>Capacidade: {sala.capacidade} pessoas</p>
-                    <p>Preço: {formatarPrecoTurno(sala.precoLocacao)}</p>
-                    {sala.descricao && <p className="text-sm">{sala.descricao}</p>}
-                </CardContent>
+                    <CardContent className="flex flex-1 flex-col gap-1 text-muted-foreground">
+                        <p>Capacidade: {sala.capacidade} pessoas</p>
+                        <p>Preço: {formatarPrecoTurno(sala.precoLocacao)}</p>
+                        <p className="flex-1 text-sm">
+                            {sala.descricao ?? ""}
+                        </p>
+                    </CardContent>
 
-                <CardFooter>
-                    <Button
-                        type="button"
-                        className="w-full"
-                        disabled={reservando}
-                        onClick={() => setConfirmarAberto(true)}
-                    >
-                        Reservar
-                    </Button>
-                </CardFooter>
-            </Card>
+                    <CardFooter className="mt-auto">
+                        <Button
+                            type="button"
+                            className="w-full"
+                            disabled={reservando}
+                            onClick={() => setConfirmarAberto(true)}
+                        >
+                            Reservar
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </div>
         
             <AlertDialog open={confirmarAberto} onOpenChange={setConfirmarAberto}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirmar Reserva?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Deseja reservar a sala <strong>{sala.nome}</strong>, dia <strong>{formatarDiaExibicao(dia)}</strong>, no turno da <strong>{labelTurno(turno)}</strong>?
+                            Deseja reservar a sala <strong>{sala.nome}</strong>, dia <strong>{formatarDiaExibicao(dia)}</strong>, no turno da <strong>{labelTurnoComHorario(turno)}</strong>?
                         </AlertDialogDescription>
                     </AlertDialogHeader>
 

@@ -51,7 +51,7 @@ export default function TelaAdminClientes() {
           {buscaInput ? " para esta busca." : "."}
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {clientes.map((cliente) => (
             <AdminClienteCard
               key={cliente.id}

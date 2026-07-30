@@ -1,12 +1,17 @@
 
+
 export const TURNOS = [
-    { valor: "M", label: "Manhã" },
-    { valor: "T", label: "Tarde" },
-    { valor: "N", label: "Noite" },
+    { valor: "M", label: "Manhã", horario: "08h–12h", iconClass: "text-amber-400" },
+    { valor: "T", label: "Tarde", horario: "12h–18h", iconClass: "text-sky-400" },
+    { valor: "N", label: "Noite", horario: "18h–00h", iconClass: "text-indigo-400" },
 ];
 
 const LABEL_TURNO = Object.fromEntries(
     TURNOS.map(({ valor, label }) => [valor, label])
+);
+
+const HORARIO_TURNO = Object.fromEntries(
+    TURNOS.map(({ valor, horario }) => [valor, horario])
 );
 
 // passar data da API "2026-07-17" ou ISO "2026-07-17T00:00:00.000Z" para "17/07/2026"
@@ -58,6 +63,24 @@ export function diaInputParaApi(valorInput) {
 
 export function labelTurno(turno) {
     return LABEL_TURNO[turno] ?? turno;
+}
+
+export function horarioTurno(turno) {
+    return HORARIO_TURNO[turno] ?? "";
+}
+
+export function labelTurnoComHorario(turno) {
+    const label = labelTurno(turno);
+    const horario = horarioTurno(turno);
+
+    return horario ? `${label} (${horario})` : label;
+}
+
+export function opcoesTurnoSelect() {
+    return TURNOS.map(({ valor, label, horario }) => ({
+        value: valor,
+        label: `${label} (${horario})`,
+    }));
 }
 
 // ex: 150 -> R$ 150,00

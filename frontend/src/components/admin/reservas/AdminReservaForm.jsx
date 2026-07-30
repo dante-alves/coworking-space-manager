@@ -9,10 +9,10 @@ import {
 import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon } from "lucide-react"
 import {
-  TURNOS,
   diaApiParaDate,
   diaParaApi,
   formatarDiaExibicao,
+  opcoesTurnoSelect,
 } from "@/lib/formatadores"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
@@ -48,10 +48,7 @@ export function AdminReservaForm({
     })),
   ]
 
-  const opcoesTurnos = TURNOS.map(({ valor, label }) => ({
-    value: valor,
-    label,
-  }))
+  const opcoesTurnos = opcoesTurnoSelect()
 
   return (
     <Card>

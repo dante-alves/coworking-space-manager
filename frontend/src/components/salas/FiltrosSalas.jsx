@@ -1,7 +1,7 @@
 import { FormSelect } from "@/components/form/form-select"
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react';
-import { TURNOS, diaApiParaDate, diaParaApi, formatarDiaExibicao, } from "@/lib/formatadores";
+import { TURNOS, diaApiParaDate, diaParaApi, formatarDiaExibicao, opcoesTurnoSelect } from "@/lib/formatadores";
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from '@/lib/utils';
@@ -56,10 +56,7 @@ export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
                     label="Turno"
                     value={turno}
                     onChange={onTurnoChange}
-                    options={TURNOS.map(({ valor, label }) => ({
-                        value: valor,
-                        label,
-                    }))}
+                    options={opcoesTurnoSelect()}
                 />
             </div>
         </div>

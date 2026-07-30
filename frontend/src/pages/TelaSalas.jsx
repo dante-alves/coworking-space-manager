@@ -1,7 +1,9 @@
 import { PageContainer } from "@/components/layout/PageContainer"
+import { PageTitulo } from "@/components/layout/PageTitulo"
 import { AlertaFeedback } from "@/components/salas/AlertaFeedback";
 import { FiltrosSalas } from "@/components/salas/FiltrosSalas";
 import { SalaCard } from "@/components/salas/SalaCard";
+import { FaixaTurnos } from "@/components/turnos/FaixaTurnos";
 import { useSalasDisponiveis } from "@/hooks/useSalasDisponiveis";
 
 export default function TelaSalas() {
@@ -20,6 +22,13 @@ export default function TelaSalas() {
 
     return (
         <PageContainer>
+            <PageTitulo
+                titulo="Salas Disponíveis"
+                descricao="Escolha o dia e o turno para ver salas livres e fazer sua reserva."
+            >
+                <FaixaTurnos />
+            </PageTitulo>
+
             <FiltrosSalas 
                 dia={dia}
                 turno={turno}
@@ -42,7 +51,7 @@ export default function TelaSalas() {
                     Nenhuma sala disponível para este dia e turno.
                 </p>
             ) : (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {salas.map((sala) => (
                         <SalaCard 
                             key={sala.id}

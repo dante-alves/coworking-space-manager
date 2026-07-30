@@ -38,44 +38,45 @@ export function AdminClienteCard({
 
   return (
     <>
-      <Card
-        className={cn(
-          "w-full",
-          !cliente.isActive && "border-dashed bg-muted/40 opacity-80"
-        )}
-      >
-        <CardHeader className="gap-2">
-          <div className="flex items-start justify-between gap-2">
-            <CardTitle className="text-base">{cliente.nome}</CardTitle>
-            <span
-              className={cn(
-                "shrink-0 rounded-full px-2 py-0.5 text-xs font-medium",
-                cliente.isActive
-                  ? "bg-green-600/10 text-green-700 dark:text-green-400"
-                  : "bg-muted text-muted-foreground"
-              )}
-            >
-              {cliente.isActive ? "Ativo" : "Inativo"}
-            </span>
-          </div>
-        </CardHeader>
+      <div className="h-full">
+        <Card
+          className={cn(
+            "flex h-full w-full flex-col",
+            !cliente.isActive && "border-dashed bg-muted/40 opacity-80"
+          )}
+        >
+          <CardHeader className="gap-2">
+            <div className="flex items-start justify-between gap-2">
+              <CardTitle className="text-base">{cliente.nome}</CardTitle>
+              <span
+                className={cn(
+                  "shrink-0 rounded-full px-2 py-0.5 text-xs font-medium",
+                  cliente.isActive
+                    ? "bg-green-600/10 text-green-700 dark:text-green-400"
+                    : "bg-muted text-muted-foreground"
+                )}
+              >
+                {cliente.isActive ? "Ativo" : "Inativo"}
+              </span>
+            </div>
+          </CardHeader>
 
-        <CardContent className="flex flex-col gap-1 text-sm text-muted-foreground">
-          <p>
-            Email:{" "}
-            <span className="text-foreground">{cliente.email}</span>
-          </p>
-          <p>
-            Telefone:{" "}
-            <span className="text-foreground">{cliente.telefone}</span>
-          </p>
-          <p>
-            CPF:{" "}
-            <span className="text-foreground">{formatarCpf(cliente.cpf)}</span>
-          </p>
-        </CardContent>
+          <CardContent className="flex flex-1 flex-col gap-1 text-sm text-muted-foreground">
+            <p>
+              Email:{" "}
+              <span className="text-foreground">{cliente.email}</span>
+            </p>
+            <p>
+              Telefone:{" "}
+              <span className="text-foreground">{cliente.telefone}</span>
+            </p>
+            <p className="flex-1">
+              CPF:{" "}
+              <span className="text-foreground">{formatarCpf(cliente.cpf)}</span>
+            </p>
+          </CardContent>
 
-        <CardFooter className="flex flex-wrap gap-2">
+          <CardFooter className="mt-auto flex flex-wrap gap-2">
           <Button
             type="button"
             variant="outline"
@@ -98,7 +99,8 @@ export function AdminClienteCard({
             </Button>
           )}
         </CardFooter>
-      </Card>
+        </Card>
+      </div>
 
       <AlertDialog open={confirmarAberto} onOpenChange={setConfirmarAberto}>
         <AlertDialogContent>

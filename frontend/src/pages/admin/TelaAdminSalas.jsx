@@ -145,7 +145,7 @@ export default function TelaAdminSalas() {
       ) : salas.length === 0 ? (
         <p className="text-muted-foreground">Nenhuma sala cadastrada.</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {salas.map((sala) => (
             <AdminSalaCard
               key={sala.id}

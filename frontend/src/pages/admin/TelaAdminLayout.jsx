@@ -1,12 +1,16 @@
 import { AdminTabs } from "@/components/admin/AdminTabs"
 import { PageContainer } from "@/components/layout/PageContainer"
+import { PageTitulo } from "@/components/layout/PageTitulo"
 import { Outlet } from "react-router-dom"
 
 export default function TelaAdminLayout() {
   return (
     <PageContainer>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Painel de Gerenciamento</h1>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <PageTitulo
+          titulo="Painel de Gerenciamento"
+          descricao="Gerencie salas, reservas e clientes do coworking."
+        />
         <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           Modo: Administrador
         </span>

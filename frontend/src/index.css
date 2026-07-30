@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -127,4 +128,7 @@
   html {
     @apply font-sans;
     }
-}
+  .font-display {
+    font-family: "Fraunces", serif;
+    }
+  }

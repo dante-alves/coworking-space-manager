@@ -16,7 +16,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { formatarDiaExibicao, labelTurno } from "@/lib/formatadores";
+import { formatarDiaExibicao, labelTurnoComHorario } from "@/lib/formatadores";
 import { useState } from "react";
 
 export function ReservaCard({ reserva, onCancelar, cancelando = false }) {
@@ -47,7 +47,7 @@ export function ReservaCard({ reserva, onCancelar, cancelando = false }) {
                     <p>
                         Turno:{" "}
                         <span className="text-foreground">
-                            {labelTurno(reserva.turno)}
+                            {labelTurnoComHorario(reserva.turno)}
                         </span>
                     </p>
                 </CardContent>
@@ -74,7 +74,7 @@ export function ReservaCard({ reserva, onCancelar, cancelando = false }) {
                             <strong>{reserva.nomeSala}</strong>, dia{" "}
                             <strong>{formatarDiaExibicao(reserva.dia)}</strong>,
                             no turno da{" "}
-                            <strong>{labelTurno(reserva.turno)}</strong>?
+                            <strong>{labelTurnoComHorario(reserva.turno)}</strong>?
                         </AlertDialogDescription>
                     </AlertDialogHeader>
 

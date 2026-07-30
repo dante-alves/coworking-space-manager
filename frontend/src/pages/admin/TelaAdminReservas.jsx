@@ -127,7 +127,7 @@ export default function TelaAdminReservas() {
           Nenhuma reserva encontrada com os filtros atuais.
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {reservas.map((reserva) => (
             <AdminReservaCard
               key={reserva.id}

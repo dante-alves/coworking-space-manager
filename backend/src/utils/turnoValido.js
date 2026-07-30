@@ -1,5 +1,12 @@
 import { ValidationError } from "./errors.js";
 
+/** Horários de exibição — fim alinhado ao PRAZO_MINUTOS (último minuto para reservar no dia) */
+export const HORARIOS_TURNO = {
+    M: '08h–12h',
+    T: '12h–18h',
+    N: '18h–00h',
+};
+
 const PRAZO_MINUTOS = {
     M: 11 * 60 + 59, // 11:59 -> última hora que o turno pode ser reservado
     T: 17 * 60 + 59, // 17:59

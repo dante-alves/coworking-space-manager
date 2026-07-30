@@ -39,35 +39,36 @@ export function AdminSalaCard({
 
   return (
     <>
-      <Card
-        className={cn(
-          "w-full",
-          !sala.isActive && "border-dashed bg-muted/40 opacity-80"
-        )}
-      >
-        <CardHeader className="gap-2">
-          <div className="flex items-start justify-between gap-2">
-            <CardTitle>{sala.nome}</CardTitle>
-            <span
-              className={cn(
-                "shrink-0 rounded-full px-2 py-0.5 text-xs font-medium",
-                sala.isActive
-                  ? "bg-green-600/10 text-green-700 dark:text-green-400"
-                  : "bg-muted text-muted-foreground"
-              )}
-            >
-              {sala.isActive ? "Ativa" : "Inativa"}
-            </span>
-          </div>
-        </CardHeader>
+      <div className="h-full">
+        <Card
+          className={cn(
+            "flex h-full w-full flex-col",
+            !sala.isActive && "border-dashed bg-muted/40 opacity-80"
+          )}
+        >
+          <CardHeader className="gap-2">
+            <div className="flex items-start justify-between gap-2">
+              <CardTitle>{sala.nome}</CardTitle>
+              <span
+                className={cn(
+                  "shrink-0 rounded-full px-2 py-0.5 text-xs font-medium",
+                  sala.isActive
+                    ? "bg-green-600/10 text-green-700 dark:text-green-400"
+                    : "bg-muted text-muted-foreground"
+                )}
+              >
+                {sala.isActive ? "Ativa" : "Inativa"}
+              </span>
+            </div>
+          </CardHeader>
 
-        <CardContent className="flex flex-col gap-1 text-muted-foreground">
-          <p>Capacidade: {sala.capacidade} pessoas</p>
-          <p>Preço: {formatarPrecoTurno(sala.precoLocacao)}</p>
-          {sala.descricao && <p className="text-sm">{sala.descricao}</p>}
-        </CardContent>
+          <CardContent className="flex flex-1 flex-col gap-1 text-muted-foreground">
+            <p>Capacidade: {sala.capacidade} pessoas</p>
+            <p>Preço: {formatarPrecoTurno(sala.precoLocacao)}</p>
+            <p className="flex-1 text-sm">{sala.descricao ?? ""}</p>
+          </CardContent>
 
-        <CardFooter className="flex flex-wrap gap-2">
+          <CardFooter className="mt-auto flex flex-wrap gap-2">
           <Button
             type="button"
             variant="outline"
@@ -99,7 +100,8 @@ export function AdminSalaCard({
             </Button>
           )}
         </CardFooter>
-      </Card>
+        </Card>
+      </div>
 
       <AlertDialog open={confirmarAberto} onOpenChange={setConfirmarAberto}>
         <AlertDialogContent>

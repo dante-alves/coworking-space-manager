@@ -1,4 +1,5 @@
 import { PageContainer } from "@/components/layout/PageContainer"
+import { PageTitulo } from "@/components/layout/PageTitulo"
 import { AlertaFeedback } from "@/components/salas/AlertaFeedback"
 import { PerfilUsuario } from "@/components/perfil/PerfilUsuario"
 import { usePerfil } from "@/hooks/usePerfil"
@@ -25,7 +26,10 @@ export default function TelaPerfil() {
 
   return (
     <PageContainer>
-      <h1 className="text-2xl font-semibold">Perfil</h1>
+      <PageTitulo
+        titulo="Perfil"
+        descricao="Visualize e edite seus dados de cadastro."
+      />
 
       {feedback && (
         <AlertaFeedback

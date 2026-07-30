@@ -1,6 +1,8 @@
 import { PageContainer } from "@/components/layout/PageContainer"
+import { PageTitulo } from "@/components/layout/PageTitulo"
 import { AlertaFeedback } from "@/components/salas/AlertaFeedback";
 import { ReservaCard } from "@/components/reservas/ReservaCard";
+import { FaixaTurnos } from "@/components/turnos/FaixaTurnos";
 import { buttonVariants } from "@/components/ui/button";
 import { useMinhasReservas } from "@/hooks/useMinhasReservas";
 import { cn } from "@/lib/utils";
@@ -18,7 +20,12 @@ export default function TelaMinhasReservas() {
 
     return (
         <PageContainer>
-            <h1 className="text-2xl font-semibold">Minhas Reservas</h1>
+            <PageTitulo
+                titulo="Minhas Reservas"
+                descricao="Suas reservas confirmadas para turnos ainda não encerrados."
+            >
+                <FaixaTurnos />
+            </PageTitulo>
 
             {feedback && (
                 <AlertaFeedback
