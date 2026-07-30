@@ -1,6 +1,6 @@
 import prisma from "../config/prisma.js";
 import { AppError, ConflictError, NotFoundError, ValidationError } from "../utils/errors.js";
-import { validarPrazoReserva } from "../utils/turnoValido.js";
+import { validarPrazoReserva, reservaJaPassou } from "../utils/turnoValido.js";
 
 // select reutilizável
 const selectReserva = {
@@ -142,13 +142,22 @@ async function listar(dados) {
         orderBy: [{ dia: 'asc' }, { turno: 'asc' }],
     })
 
-    return reservas.map((r) => ({
+    const reservasFormatadas = reservas.map((r) => ({
         id: r.id,
         idSala: r.idSala,
         nomeSala: r.sala.nome,
         dia: r.dia,
         turno: r.turno
     }));
+
+    // cliente vê só reservas ativas (futuras ou de hoje ainda no prazo do turno)
+    if (!solicitanteEhAdmin) {
+        return reservasFormatadas.filter(
+            (r) => !reservaJaPassou(r.dia, r.turno)
+        );
+    }
+
+    return reservasFormatadas;
 }
 
 // UPDATE -> não vou fazer por enquanto
@@ -159,11 +168,15 @@ async function deletar(id, solicitante) {
     try {
         const reserva = await prisma.reserva.findUnique({
             where: { id },
-            select: { id: true, idUsuario: true, status: true },
+            select: { id: true, idUsuario: true, status: true, dia: true, turno: true },
           });
 
           if (!reserva || reserva.status !== 'confirmada') {
             throw new NotFoundError('Reserva não encontrada');
+        }
+
+        if (reservaJaPassou(reserva.dia, reserva.turno)) {
+            throw new ValidationError('Não é possível cancelar reserva passada.');
         }
 
         if (!solicitante.eAdmin && reserva.idUsuario !== solicitante.id) {

@@ -32,7 +32,7 @@ export default function TelaMinhasReservas() {
             ) : reservas.length === 0 ? (
                 <div className="flex flex-col gap-4">
                     <p className="text-muted-foreground">
-                        Você ainda não tem reservas confirmadas.
+                        Você não tem reservas ativas no momento.
                     </p>
                     <Link
                         to="/salas"

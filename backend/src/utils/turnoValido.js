@@ -53,3 +53,15 @@ export function turnoAindaReservavel(dia, turno) {
 
     return agora <= PRAZO_MINUTOS[turno]; // se agora for menor ou igual ao prazo, o turno está disponível
 }
+
+export function diaReservaParaString(dia) {
+    if (!dia) return "";
+    if (typeof dia === "string") return dia.slice(0, 10);
+    return dia.toISOString().slice(0, 10);
+}
+
+// reserva "passou" quando não dá mais para reservar aquele turno naquele dia
+export function reservaJaPassou(dia, turno) {
+    const diaNormalizado = diaReservaParaString(dia);
+    return !turnoAindaReservavel(diaNormalizado, turno);
+}
