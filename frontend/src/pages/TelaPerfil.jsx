@@ -12,11 +12,13 @@ export default function TelaPerfil() {
     erros,
     erroGeral,
     enviando,
+    removendo,
     feedback,
     iniciarEdicao,
     cancelarEdicao,
     salvarEdicao,
     atualizarCampo,
+    removerConta,
     limparFeedback,
   } = usePerfil()
 
@@ -50,10 +52,12 @@ export default function TelaPerfil() {
           erros={erros}
           erroGeral={erroGeral}
           enviando={enviando}
+          removendo={removendo}
           onIniciarEdicao={iniciarEdicao}
           onCancelarEdicao={cancelarEdicao}
           onSalvarEdicao={salvarEdicao}
           onCampoChange={atualizarCampo}
+          onRemoverConta={removerConta}
         />
       )}
     </main>

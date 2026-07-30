@@ -23,3 +23,9 @@ export async function atualizar(id, dados) {
 
     return data;
 }
+
+export async function desativar(id) {
+    const { data } = await api.delete(`/usuarios/${id}`);
+
+    return data;
+}
