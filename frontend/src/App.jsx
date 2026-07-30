@@ -12,6 +12,7 @@ import TelaAdminLayout from './pages/admin/TelaAdminLayout'
 import TelaAdminSalas from './pages/admin/TelaAdminSalas'
 import TelaAdminReservas from './pages/admin/TelaAdminReservas'
 import TelaAdminClientes from './pages/admin/TelaAdminClientes'
+import TelaNotFound from './pages/TelaNotFound'
 import { RotaAdmin } from '@/components/layout/RotaAdmin'
 import { Navigate } from 'react-router-dom'
 
@@ -64,6 +65,8 @@ function App() {
             <Route path="reservas" element={<TelaAdminReservas />} />
             <Route path="clientes" element={<TelaAdminClientes />} />
           </Route>
+
+          <Route path="*" element={<TelaNotFound />} />
 
         </Route>
       </Routes>

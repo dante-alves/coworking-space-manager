@@ -6,7 +6,7 @@ export function useLogout() {
 
   function sair() {
     limparSessao()
-    navigate("/login", { replace: true })
+    navigate("/", { replace: true })
   }
 
   return { sair }
