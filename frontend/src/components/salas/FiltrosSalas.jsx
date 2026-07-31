@@ -1,7 +1,13 @@
 import { FormSelect } from "@/components/form/form-select"
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react';
-import { TURNOS, diaApiParaDate, diaParaApi, formatarDiaExibicao, opcoesTurnoSelect } from "@/lib/formatadores";
+import {
+  diaApiParaDate,
+  diaParaApi,
+  formatarDiaExibicao,
+  opcoesTurnoSelectParaDia,
+} from "@/lib/formatadores";
+import { diaApiJaPassou } from "@/lib/turno";
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from '@/lib/utils';
@@ -9,6 +15,10 @@ import { cn } from '@/lib/utils';
 export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
     const [aberto, setAberto] = useState(false);
     const dataSelecionada = diaApiParaDate(dia);
+
+    function diaDesabilitadoNoCalendario(date) {
+        return diaApiJaPassou(diaParaApi(date));
+    }
 
     return (
         <div className="rounded-lg border border-border p-4 flex flex-col gap-4">
@@ -40,8 +50,9 @@ export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
                                     mode="single"
                                     selected={dataSelecionada}
                                     captionLayout="dropdown"
+                                    disabled={diaDesabilitadoNoCalendario}
                                     onSelect={(data) => {
-                                    if (data) {
+                                    if (data && !diaDesabilitadoNoCalendario(data)) {
                                         onDiaChange(diaParaApi(data))
                                         setAberto(false)
                                     }
@@ -56,7 +67,7 @@ export function FiltrosSalas({ dia, turno, onDiaChange, onTurnoChange }) {
                     label="Turno"
                     value={turno}
                     onChange={onTurnoChange}
-                    options={opcoesTurnoSelect()}
+                    options={opcoesTurnoSelectParaDia(dia)}
                 />
             </div>
         </div>

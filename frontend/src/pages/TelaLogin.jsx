@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/login-form'
+import { LoginForm } from '@/components/auth/LoginForm'
 import { useLogin } from '@/hooks/useLogin'
 
 export default function TelaLogin() {

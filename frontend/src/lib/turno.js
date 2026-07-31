@@ -44,3 +44,10 @@ export function turnoAindaReservavel(dia, turno) {
 export function reservaJaPassou(dia, turno) {
   return !turnoAindaReservavel(dia, turno)
 }
+
+export function diaApiJaPassou(diaApi) {
+  const normalizado = normalizarDiaReserva(diaApi)
+  if (!normalizado) return true
+
+  return normalizado < diaNoFuso()
+}

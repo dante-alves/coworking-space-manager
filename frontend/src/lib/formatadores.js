@@ -1,5 +1,7 @@
 
 
+import { turnoAindaReservavel } from "./turno"
+
 export const TURNOS = [
     { valor: "M", label: "Manhã", horario: "08h–12h", iconClass: "text-amber-400" },
     { valor: "T", label: "Tarde", horario: "12h–18h", iconClass: "text-sky-400" },
@@ -81,6 +83,21 @@ export function opcoesTurnoSelect() {
         value: valor,
         label: `${label} (${horario})`,
     }));
+}
+
+export function opcoesTurnoSelectParaDia(diaApi) {
+    return TURNOS.map(({ valor, label, horario }) => ({
+        value: valor,
+        label: `${label} (${horario})`,
+        disabled: !turnoAindaReservavel(diaApi, valor),
+    }));
+}
+
+export function primeiroTurnoDisponivel(diaApi) {
+    return (
+        TURNOS.find(({ valor }) => turnoAindaReservavel(diaApi, valor))?.valor ??
+        TURNOS[0].valor
+    );
 }
 
 // ex: 150 -> R$ 150,00

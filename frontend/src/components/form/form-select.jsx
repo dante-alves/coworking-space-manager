@@ -13,6 +13,7 @@ function normalizarOpcoes(options) {
     label: opcao.label,
     value:
       opcao.value === "" || opcao.value == null ? null : String(opcao.value),
+    disabled: opcao.disabled ?? false,
   }))
 }
 
@@ -64,6 +65,7 @@ export function FormSelect({
             <SelectItem
               key={item.value ?? "__vazio__"}
               value={item.value}
+              disabled={item.disabled}
             >
               {item.label}
             </SelectItem>

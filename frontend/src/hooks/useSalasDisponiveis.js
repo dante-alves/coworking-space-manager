@@ -1,4 +1,5 @@
-import { hojeParaApi } from "@/lib/formatadores";
+import { hojeParaApi, primeiroTurnoDisponivel } from "@/lib/formatadores";
+import { turnoAindaReservavel } from "@/lib/turno";
 import { criar } from "@/services/reservaService";
 import { listarDisponiveis } from "@/services/salaService";
 import { criarReservaSchema } from "@/validators/reservaSchema";
@@ -9,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 export function useSalasDisponiveis() {
 
-    const [dia, setDia] = useState(hojeParaApi());
-    const [turno, setTurno] = useState("M");
+    const [dia, setDiaState] = useState(hojeParaApi());
+    const [turno, setTurno] = useState(() => primeiroTurnoDisponivel(hojeParaApi()));
     const [salas, setSalas] = useState([]);
     const [carregando, setCarregando] = useState(false);
     const [reservandoId, setReservandoId] = useState(null);
@@ -90,6 +91,15 @@ export function useSalasDisponiveis() {
 
     function limparFeedback() {
         setFeedback(null);
+    }
+
+    function setDia(novoDia) {
+        setDiaState(novoDia);
+        setTurno((atual) =>
+            turnoAindaReservavel(novoDia, atual)
+                ? atual
+                : primeiroTurnoDisponivel(novoDia)
+        );
     }
 
     return {
