@@ -3,11 +3,13 @@ import { limparSessao, obterUsuario, salvarSessao, obterToken } from './auth-sto
 import { redirecionarLogin } from './navegacao';
 
 const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const TIMEOUT_MS = 15000;
 
 const api = axios.create({
     baseURL,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
+    timeout: TIMEOUT_MS,
 });
 
 let isRefreshing = false;
@@ -62,7 +64,7 @@ api.interceptors.response.use(
       const { data } = await axios.post(
         `${baseURL}/refresh`,
         {},
-        { withCredentials: true }
+        { withCredentials: true, timeout: TIMEOUT_MS }
       );
 
       salvarSessao({
