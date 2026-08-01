@@ -13,7 +13,7 @@ const options = {
       version: '1.0.0',
       description: 'API de reservas de salas de coworking',
     },
-    servers: [{ url: 'http://localhost:3000' }],
+    servers: [{ url: '/' }],
     components: {
       securitySchemes: {
         bearerAuth: {
