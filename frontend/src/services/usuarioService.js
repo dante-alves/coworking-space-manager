@@ -12,6 +12,18 @@ export async function login(dados) {
     return data;
 }
 
+export async function logout() {
+    const { data } = await api.post('/logout');
+
+    return data;
+}
+
+export async function refresh() {
+    const { data } = await api.post('/refresh');
+
+    return data;
+}
+
 export async function buscarPorId(id) {
     const { data } = await api.get(`/usuarios/${id}`);
 

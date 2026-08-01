@@ -1,6 +1,7 @@
 import prisma from '../config/prisma.js';
 import bcrypt from 'bcrypt';
 import { ConflictError, NotFoundError, UnauthorizatedError } from '../utils/errors.js';
+import refreshTokenService from './refreshTokenService.js';
 
 // select reutilizável
 const selectUsuario = {
@@ -242,6 +243,8 @@ async function deletar(id) {
         where: { id },
         data: { isActive: false },
       });
+
+      await refreshTokenService.revogarPorUsuario(id);
 
       return { reservasCanceladas: count };
     });

@@ -39,7 +39,12 @@ const router = Router();
  *                 example: Senha123
  *     responses:
  *       '200':
- *         description: OK — retorna accessToken e usuario
+ *         description: OK — retorna accessToken, usuario e cookie httpOnly refreshToken
+ *         headers:
+ *           Set-Cookie:
+ *             description: Refresh token opaco (httpOnly)
+ *             schema:
+ *               type: string
  *         content:
  *           application/json:
  *             schema:
@@ -59,6 +64,70 @@ const router = Router();
  *               $ref: '#/components/schemas/Erro'
  */
 router.post('/login', validate(loginUsuarioSchema), usuarioController.login);
+
+/**
+ * @openapi
+ * /logout:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Logout
+ *     description: |
+ *       Revoga o refresh token do cookie httpOnly `refreshToken` no Redis e limpa o cookie.
+ *       Rota pública — não exige Bearer.
+ *     security: []
+ *     responses:
+ *       '200':
+ *         description: Sessão encerrada — refresh token revogado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sucesso:
+ *                   type: boolean
+ *                   example: true
+ */
+router.post('/logout', usuarioController.logout);
+
+/**
+ * @openapi
+ * /refresh:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Renovar access token
+ *     description: |
+ *       Valida o refresh token opaco do cookie httpOnly `refreshToken`, rotaciona a sessão
+ *       no Redis e retorna um novo accessToken. O cookie é atualizado automaticamente.
+ *     security: []
+ *     responses:
+ *       '200':
+ *         description: Access token renovado — cookie refresh atualizado
+ *         headers:
+ *           Set-Cookie:
+ *             description: Novo refresh token opaco (httpOnly)
+ *             schema:
+ *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sucesso:
+ *                   type: boolean
+ *                   example: true
+ *                 accessToken:
+ *                   type: string
+ *       '401':
+ *         description: Refresh token inválido, expirado ou usuário inativo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
+ */
+router.post('/refresh', usuarioController.refresh);
+
 
 /**
  * @openapi
