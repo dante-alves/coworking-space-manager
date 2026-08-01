@@ -21,7 +21,7 @@ export function estaLogado() {
 
 export function limparSessao() {
     localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY)
+    localStorage.removeItem(USER_KEY);
     notificarSessaoAtualizada();
 }
 
@@ -31,20 +31,20 @@ export function obterUsuario() {
     if (!raw) return null;
 
     try {
-        return JSON.parse(raw); // parse do usuário string para object
+        return JSON.parse(raw);
     } catch {
         return null;
     }
 }
 
 export function atualizarUsuarioSessao(dados) {
-    const token = obterToken();
+    const accessToken = obterToken();
     const usuario = obterUsuario();
 
-    if (!token || !usuario) return;
+    if (!accessToken || !usuario) return;
 
     salvarSessao({
-        accessToken: token,
+        accessToken,
         usuario: { ...usuario, ...dados },
     });
 }
