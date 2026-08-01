@@ -1,0 +1,44 @@
+{
+  "name": "coworking-space-manager-api",
+  "version": "1.0.0",
+  "description": "API do sistema de gerenciamento de coworking",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "dotenv -e ../.env -- prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "node prisma/seed.js",
+    "db:studio": "dotenv -e ../.env -- prisma studio"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "node prisma/seed.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "dotenv-cli": "^8.0.0",
+    "nodemon": "^3.1.14",
+    "prisma": "5.12.1"
+  },
+  "dependencies": {
+    "@prisma/client": "5.12.1",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.4.3"
+  },
+  "allowScripts": {
+    "@prisma/engines@5.12.1": true,
+    "prisma@5.12.1": true
+  }
+}

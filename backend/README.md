@@ -7,6 +7,8 @@ API REST em Node.js + Express.
 ```
 backend/
   server.js          # entrada
+  loadEnv.js         # carrega ../.env (raiz do monorepo)
+  prisma/            # schema, migrations, seed
   src/
     app.js           # Express, CORS, cookies
     config/          # Prisma, Redis, Swagger
@@ -18,7 +20,9 @@ backend/
     utils/
 ```
 
-## Scripts (raiz do monorepo)
+## Scripts
+
+Execute dentro de `backend/` ou use `npm run <script> --prefix backend` na raiz.
 
 | Comando | Descrição |
 |---------|-----------|
@@ -27,12 +31,23 @@ backend/
 | `npm run db:migrate` | Migrations (dev) |
 | `npm run db:migrate:deploy` | Migrations (prod) |
 | `npm run db:seed` | Admin inicial |
+| `npm run db:studio` | Prisma Studio |
+
+Na raiz do monorepo, os mesmos comandos funcionam via `npm run dev`, `npm run db:seed`, etc.
 
 ## Variáveis de ambiente
 
-Todas ficam no **`.env` na raiz do repositório** — veja [.env.example](../.env.example) e o [README principal](../README.md).
+O `.env` fica na **raiz do monorepo** (`../.env`). Veja [.env.example](../.env.example).
 
-Principais: `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `FRONTEND_URL`, `NODE_ENV`.
+Em produção (Render), configure as variáveis no painel — não há arquivo `.env`.
+
+## Deploy (Render)
+
+| Campo | Valor |
+|-------|--------|
+| **Root Directory** | `backend` |
+| **Build** | `npm install && npx prisma generate && npx prisma migrate deploy` |
+| **Start** | `npm start` |
 
 ## Documentação da API
 

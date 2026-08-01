@@ -2,6 +2,15 @@
 
 Sistema que gerencia as alocações das salas de um coworking.
 
+## Estrutura do monorepo
+
+```
+/
+  .env                 # compartilhado (backend + Vite)
+  backend/             # API + Prisma → Render
+  frontend/            # React + Vite → Vercel
+```
+
 ## Stack
 
 - **Frontend:** React + Vite (Vercel)
@@ -17,11 +26,13 @@ Quem for testar a aplicação precisa de pelo menos **um admin** para acessar o 
 
 ### Opção 1 — Seed (recomendado)
 
-Na raiz do projeto, com `DATABASE_URL` configurada no `.env`:
+Na raiz do projeto, com `DATABASE_URL` no `.env`:
 
 ```bash
 npm run db:seed
 ```
+
+(O script roda em `backend/` — veja [backend/README.md](backend/README.md).)
 
 Isso cria (ou promove) um administrador **idempotente** — pode rodar várias vezes sem duplicar.
 
@@ -61,9 +72,8 @@ Somente um **admin autenticado** consegue definir `eAdmin: true` — cadastro p�
 ## Desenvolvimento local
 
 ```bash
-# instalar dependências (raiz + frontend)
-npm install
-cd frontend && npm install && cd ..
+# instalar dependências
+npm run install:all
 
 # migrations e admin inicial
 npm run db:migrate
@@ -71,18 +81,20 @@ npm run db:seed
 
 # subir API e front (terminais separados)
 npm run dev
-cd frontend && npm run dev
+npm run dev:front
 ```
+
+Ou entre em cada pasta: `backend/` e `frontend/`.
 
 ### Variáveis de ambiente
 
-Monorepo com **um único `.env` na raiz** (backend + frontend):
+Monorepo com **um único `.env` na raiz** (backend carrega via `loadEnv.js`; Vite via `envDir`):
 
 ```bash
 cp .env.example .env
 ```
 
-Preencha conforme [.env.example](.env.example). O Vite carrega da raiz via `envDir` em `frontend/vite.config.js` — só variáveis `VITE_*` vão para o browser.
+Preencha conforme [.env.example](.env.example). Só variáveis `VITE_*` vão para o browser.
 
 Mais detalhes: [backend/README.md](backend/README.md) · [frontend/README.md](frontend/README.md)
 
@@ -90,12 +102,12 @@ Mais detalhes: [backend/README.md](backend/README.md) · [frontend/README.md](fr
 
 ## Deploy
 
-| Serviço | Onde | Variável principal |
-|---------|------|-------------------|
+| Serviço | Onde | Config |
+|---------|------|--------|
 | Postgres | Prisma | `DATABASE_URL` → Render |
 | Redis | Upstash | `REDIS_URL` → Render |
-| API | Render | build: `npm install && npx prisma generate && npx prisma migrate deploy` |
-| Front | Vercel (pasta `frontend/`) | `VITE_API_URL` |
+| API | Render (**Root Directory: `backend`**) | build: `npm install && npx prisma generate && npx prisma migrate deploy` · start: `npm start` |
+| Front | Vercel (**Root Directory: `frontend`**) | `VITE_API_URL` |
 
 Após o deploy da API, configure `FRONTEND_URL` no Render com a URL exata da Vercel e faça redeploy.
 
