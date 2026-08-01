@@ -93,6 +93,8 @@ dist
 .vuepress/dist
 
 *.png
+!frontend/src/assets/coworking.png
+!frontend/public/coworking.png
 
 # vuepress v2.x temp directory
 .temp
