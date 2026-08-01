@@ -76,15 +76,15 @@ cd frontend && npm run dev
 
 ### Variáveis de ambiente
 
-Copie os exemplos e preencha com seus valores:
+Monorepo com **um único `.env` na raiz** (backend + frontend):
 
 ```bash
 cp .env.example .env
-cp frontend/.env.example frontend/.env
 ```
 
-- **Backend:** `.env` na raiz — veja [.env.example](.env.example)
-- **Frontend:** `frontend/.env` — veja [frontend/.env.example](frontend/.env.example)
+Preencha conforme [.env.example](.env.example). O Vite carrega da raiz via `envDir` em `frontend/vite.config.js` — só variáveis `VITE_*` vão para o browser.
+
+Mais detalhes: [backend/README.md](backend/README.md) · [frontend/README.md](frontend/README.md)
 
 ---
 

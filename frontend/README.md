@@ -1,16 +1,40 @@
-# React + Vite
+# Frontend — Coworking Space Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SPA em React + Vite + Tailwind + shadcn/ui.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Dev server (porta 5173) |
+| `npm run build` | Build para produção |
+| `npm run preview` | Preview do build |
 
-## React Compiler
+Execute dentro de `frontend/`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Variáveis de ambiente
 
-## Expanding the ESLint configuration
+O Vite lê o **`.env` na raiz do monorepo** (`envDir` configurado em `vite.config.js`).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Variável usada pelo front:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+Copie [.env.example](../.env.example) para `.env` na **raiz** — não crie `.env` aqui em `frontend/`.
+
+Em produção (Vercel), defina `VITE_API_URL` no painel do projeto (Root Directory: `frontend/`).
+
+## Estrutura
+
+```
+frontend/src/
+  components/   # UI por domínio (auth, admin, salas…)
+  hooks/        # lógica de tela
+  pages/        # rotas
+  services/     # chamadas à API
+  lib/          # api, auth-storage, utils
+```
+
+Documentação geral, deploy e admin: [README principal](../README.md).
