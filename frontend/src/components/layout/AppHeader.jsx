@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth"
 import { useLogout } from "@/hooks/useLogout"
 import { NavLinkPerfil } from "@/components/layout/NavLinkPerfil"
+import { LOGO_COWORKING_URL } from "@/lib/imagens"
 import { cn } from "@/lib/utils"
 import { Link, NavLink } from "react-router-dom"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -21,8 +22,17 @@ export function AppHeader() {
   return (
     <header className="border-b bg-card">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-        <Link to="/" className="text-xl font-semibold hover:text-primary">
-          Coworking Space Manager
+        <Link
+          to="/"
+          className="text-xl font-semibold leading-none hover:text-primary"
+        >
+          <img
+            src={LOGO_COWORKING_URL}
+            alt=""
+            className="mr-2 inline-block h-10 w-10 object-contain align-middle"
+            aria-hidden="true"
+          />
+          <span className="align-middle">Coworking Space Manager</span>
         </Link>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm">
