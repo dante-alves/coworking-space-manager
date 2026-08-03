@@ -16,9 +16,25 @@ backend/
     services/
     routes/
     middlewares/
+      rateLimitMiddleware.js   # limites global + auth
     validators/
     utils/
 ```
+
+## Segurança
+
+- **Helmet** — `app.js` (headers HTTP)
+- **Rate limit global** — 100 req/min por IP em todas as rotas
+- **Rate limit por rota** — `/login`, `/usuarios` (POST), `/refresh` (ver tabela abaixo)
+- **Store** — Redis (`rate-limit-redis`), prefixos `rl:global:`, `rl:login:`, etc.
+- **429** — `TooManyRequestsError` → `errorHandler`
+
+| Middleware | Rota | Limite | Janela |
+|------------|------|--------|--------|
+| `globalRateLimit` | todas | 100/IP | 1 min |
+| `loginRateLimit` | `POST /login` | 10/IP+email | 15 min |
+| `cadastroRateLimit` | `POST /usuarios` | 5/IP | 1 h |
+| `refreshRateLimit` | `POST /refresh` | 30/IP | 15 min |
 
 ## Scripts
 

@@ -28,7 +28,7 @@ Sistema que gerencia as alocações das salas de um coworking.
 
 ## Stack
 
-**Backend:** Express 5, Prisma 5, PostgreSQL, Redis (ioredis), JWT + bcrypt, Zod, Swagger — Render
+**Backend:** Express 5, Prisma 5, PostgreSQL, Redis (ioredis), JWT + bcrypt, Zod, Swagger, Helmet, express-rate-limit — Render
 
 **Frontend:** React 19, Vite, React Router 7, Axios, Tailwind CSS 4, shadcn/ui — Vercel
 
@@ -128,6 +128,31 @@ Mais detalhes: [backend/README.md](backend/README.md) · [frontend/README.md](fr
 Após o deploy da API, configure `FRONTEND_URL` no Render com a URL exata da Vercel e faça redeploy.
 
 Após o primeiro deploy do banco, rode `npm run db:seed` uma vez para criar o admin de teste.
+
+## Segurança da API
+
+Medidas alinhadas ao OWASP API Security (consumo ilimitado de recursos e proteção de rotas de autenticação):
+
+### Helmet
+
+Headers HTTP de segurança (`X-Content-Type-Options`, `X-Frame-Options`, etc.) aplicados globalmente em `backend/src/app.js`.
+
+### Rate limiting (Redis)
+
+Contadores persistidos no **mesmo Redis** do refresh token (`backend/src/middlewares/rateLimitMiddleware.js`). Respostas **`429`** seguem o padrão da API via `TooManyRequestsError` e o `errorHandler` (`{ sucesso: false, mensagem }`). Headers `RateLimit-*` informam limite e tempo de reset.
+
+| Escopo | Rota(s) | Limite | Janela |
+|--------|---------|--------|--------|
+| Global | Todas | 100 req/IP | 1 min |
+| Login | `POST /login` | 10 req/IP+email | 15 min |
+| Cadastro | `POST /usuarios` | 5 req/IP | 1 h |
+| Refresh | `POST /refresh` | 30 req/IP | 15 min |
+
+Rotas sensíveis passam pelo **limite global e pelo específico** (camadas complementares). No login, a chave usa `ipKeyGenerator` (IPv6 seguro) + email do body.
+
+Em produção no Render, `app.set('trust proxy', 1)` garante que o IP real chegue ao rate limit atrás do proxy.
+
+Detalhes de implementação: [backend/README.md](backend/README.md#segurança).
 
 ## Notes
 

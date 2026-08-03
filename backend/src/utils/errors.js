@@ -37,3 +37,9 @@ export class ConflictError extends AppError {
     super(mensagem, 409);
   }
 }
+
+export class TooManyRequestsError extends AppError {
+  constructor(mensagem = 'Muitas tentativas. Tente novamente mais tarde.') {
+    super(mensagem, 429);
+  }
+}

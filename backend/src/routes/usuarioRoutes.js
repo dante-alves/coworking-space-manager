@@ -9,6 +9,7 @@ import {
   loginUsuarioSchema,
 } from '../validators/usuarioSchemas.js';
 import { validate } from '../middlewares/validate.js';
+import { cadastroRateLimit, loginRateLimit, refreshRateLimit } from '../middlewares/rateLimitMiddleware.js';
 
 const router = Router();
 
@@ -63,7 +64,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.post('/login', validate(loginUsuarioSchema), usuarioController.login);
+router.post('/login', loginRateLimit, validate(loginUsuarioSchema), usuarioController.login);
 
 /**
  * @openapi
@@ -126,7 +127,7 @@ router.post('/logout', usuarioController.logout);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.post('/refresh', usuarioController.refresh);
+router.post('/refresh', refreshRateLimit, usuarioController.refresh);
 
 
 /**
@@ -172,7 +173,7 @@ router.post('/refresh', usuarioController.refresh);
  *       '409':
  *         description: Email/CPF duplicado
  */
-router.post('/usuarios', authOpcional, validate(criarUsuarioSchema, 'body'), usuarioController.criar);
+router.post('/usuarios', cadastroRateLimit, authOpcional, validate(criarUsuarioSchema, 'body'), usuarioController.criar);
 
 /**
  * @openapi
