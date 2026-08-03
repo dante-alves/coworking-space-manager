@@ -37,4 +37,19 @@ frontend/src/
   lib/          # api, auth-storage, utils
 ```
 
+## Rotas
+
+| Rota | Acesso | Página |
+|------|--------|--------|
+| `/` | Público | Home |
+| `/login` | Público | Login |
+| `/cadastro` | Público | Cadastro |
+| `/salas` | Autenticado | Lista de salas + reserva |
+| `/minhas-reservas` | Autenticado | Reservas do usuário |
+| `/perfil` | Autenticado | Perfil do usuário |
+| `/admin/salas` | Admin | CRUD de salas |
+| `/admin/reservas` | Admin | Reservas de todos os clientes |
+| `/admin/clientes` | Admin | CRUD de clientes |
+| `*` | Público | 404 |
+
 Documentação geral, deploy e admin: [README principal](../README.md).

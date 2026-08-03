@@ -2,6 +2,21 @@
 
 Sistema que gerencia as alocações das salas de um coworking.
 
+## Live demo
+
+- **Frontend:** https://coworking-space-manager-sand.vercel.app
+- **Backend / API:** https://coworking-space-manager.onrender.com
+- **Swagger:** https://coworking-space-manager.onrender.com/docs
+
+> No plano free do Render, a API "dorme" após um tempo sem tráfego — a primeira requisição depois disso pode demorar 30-60s (ou falhar e precisar de uma segunda tentativa). Isso é limitação de infraestrutura, não bug da aplicação.
+
+## Pré-requisitos
+
+- Node.js 20+
+- npm
+- PostgreSQL (local ou remoto, ex. Prisma Postgres/Supabase)
+- Redis (local ou remoto, ex. Upstash) — usado para sessão (refresh token)
+
 ## Estrutura do monorepo
 
 ```
@@ -13,10 +28,11 @@ Sistema que gerencia as alocações das salas de um coworking.
 
 ## Stack
 
-- **Frontend:** React + Vite (Vercel)
-- **Backend:** Node + Express (Render)
-- **Banco:** PostgreSQL (Prisma)
-- **Sessão:** Refresh token opaco no Redis (Upstash) via cookie httpOnly
+**Backend:** Express 5, Prisma 5, PostgreSQL, Redis (ioredis), JWT + bcrypt, Zod, Swagger — Render
+
+**Frontend:** React 19, Vite, React Router 7, Axios, Tailwind CSS 4, shadcn/ui — Vercel
+
+**Sessão:** access JWT curto + refresh token opaco no Redis (Upstash), entregue via cookie `httpOnly`
 
 ---
 
@@ -112,3 +128,12 @@ Mais detalhes: [backend/README.md](backend/README.md) · [frontend/README.md](fr
 Após o deploy da API, configure `FRONTEND_URL` no Render com a URL exata da Vercel e faça redeploy.
 
 Após o primeiro deploy do banco, rode `npm run db:seed` uma vez para criar o admin de teste.
+
+## Notes
+
+- **CORS aceita apenas uma origem exata** via `FRONTEND_URL` (sem `/` no final). Se mudar o domínio do front (ex: apontar para uma URL diferente da Vercel), atualize essa variável no Render e redeploy — senão o login falha com erro de CORS.
+- **Sempre acesse pela URL de produção fixa** da Vercel (a que aparece em Settings → Domains), nunca pela URL específica de um deployment (`projeto-<hash>-<time>.vercel.app`) — essa muda a cada deploy e não bate com o `FRONTEND_URL` configurado, causando bloqueio de CORS.
+- **Cookie de refresh token** é `httpOnly` + `SameSite=None` + `Secure` em produção. Como front (`vercel.app`) e back (`onrender.com`) são domínios diferentes, alguns navegadores tratam esse cookie como "de terceiros" e podem bloqueá-lo (Safari sempre bloqueia por padrão; Chrome em aba anônima também). Para eliminar isso de vez, seria necessário usar subdomínios de um mesmo domínio próprio para front e back.
+- **Timeout no axios** (`frontend/src/lib/api.js`) evita que a UI trave indefinidamente em "Logando..." caso a API demore demais para responder (ex: acordando do cold start do Render).
+- Dias e turnos passados são bloqueados na criação de reservas.
+- Apenas um admin autenticado pode criar outro admin (`eAdmin: true` é ignorado em cadastro público).

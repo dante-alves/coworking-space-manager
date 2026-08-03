@@ -52,3 +52,25 @@ Em produção (Render), configure as variáveis no painel — não há arquivo `
 ## Documentação da API
 
 Com a API rodando: [http://localhost:3000/docs](http://localhost:3000/docs)
+
+### Principais rotas
+
+Envie `Authorization: Bearer <accessToken>` nas rotas autenticadas.
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/login` | Login — retorna `accessToken` + cookie `httpOnly` de refresh |
+| POST | `/logout` | Revoga o refresh token e limpa o cookie |
+| POST | `/refresh` | Renova o `accessToken` a partir do cookie de refresh |
+| POST | `/usuarios` | Cadastro (público; admin autenticado pode enviar `eAdmin`) |
+| GET | `/usuarios` | Listar usuários (**admin**) |
+| GET | `/usuarios/:id` | Buscar usuário por id |
+| PUT | `/usuarios/:id` | Atualizar nome/telefone |
+| DELETE | `/usuarios/:id` | Desativar conta (soft delete) |
+| GET | `/salas` | Listar salas (com `dia`+`turno` filtra disponibilidade) |
+| POST | `/salas` | Criar sala (**admin**) |
+| PUT | `/salas/:id` | Atualizar sala (**admin**) |
+| DELETE | `/salas/:id` | Desativar sala (**admin**; cancela reservas futuras) |
+| GET | `/reservas` | Listar reservas (cliente vê só as próprias; admin filtra por query) |
+| POST | `/reservas` | Criar reserva |
+| DELETE | `/reservas/:id` | Cancelar reserva |
