@@ -79,24 +79,29 @@ async function listarDisponiveis(dia, turno) {
     // dia vem do Zod como "YYYY-MM-DD"
     const diaDate = new Date(`${dia}T00:00:00.000Z`);
 
-    // pegar salas ativas
-    const salas = await prisma.sala.findMany({
-        where: { isActive: true },
-        select: selectSala,
-        orderBy: { id: 'asc' },
-    })
+    // pegar salas ativas e reservas confirmadas do dia
 
-    // reservas confirmadas do dia
-    const reservas = await prisma.reserva.findMany({
-        where: {
-            dia: diaDate,
-            status: 'confirmada',
-        },
-        select: { // esse select vai ser usado no próx passo de ocupacaoPorSala
-            idSala: true,
-            turno: true,
-        },
-    });
+    const [salas, reservas] = await Promise.all([
+        
+        // salas
+        prisma.sala.findMany({
+            where: { isActive: true },
+            select: selectSala,
+            orderBy: { id: 'asc' },
+        }),
+    
+        // reservas 
+        prisma.reserva.findMany({
+            where: {
+                dia: diaDate,
+                status: 'confirmada',
+            },
+            select: { // esse select vai ser usado no próx passo de ocupacaoPorSala
+                idSala: true,
+                turno: true,
+            },
+        }),
+    ]);
 
     /* Map() com chave idSala tendo como valor Set() contendo turnos ocupados
         ocupacaoPorSala {
